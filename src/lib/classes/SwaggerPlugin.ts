@@ -4,7 +4,7 @@ let swarm: any
 let conf: SwaggerPluginOptions
 let cache: any = {}
 
-export default class SwaggerPlugin {
+export class SwaggerPlugin {
   static setup (instance: any, options: Partial<SwaggerPluginOptions> = {}) {
     swarm = instance
 
