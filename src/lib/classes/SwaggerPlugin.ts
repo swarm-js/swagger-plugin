@@ -10,14 +10,13 @@ export default class SwaggerPlugin {
 
     conf = {
       controllerName: 'SwaggerPlugin',
-      uiPath: '/swagger',
       access: null,
       ...options
     }
 
     instance.fastify.register(require('@fastify/static'), {
       root: require('swagger-ui-dist').getAbsoluteFSPath(),
-      prefix: conf.uiPath
+      prefix: '/swagger'
     })
 
     instance.controllers.addController(conf.controllerName, {
