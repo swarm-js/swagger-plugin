@@ -16,7 +16,8 @@ export class SwaggerPlugin {
 
     instance.fastify.register(require('@fastify/static'), {
       root: require('swagger-ui-dist').getAbsoluteFSPath(),
-      prefix: '/swagger'
+      prefix: '/swagger',
+      decorateReply: !instance.fastify.hasReplyDecorator('sendFile')
     })
 
     instance.controllers.addController(conf.controllerName, {
