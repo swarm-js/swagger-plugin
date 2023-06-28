@@ -104,7 +104,7 @@ export class SwaggerPlugin {
   }
 
   static schemaNameToSwagger (name: string) {
-    return name.replace(/\//g, '_')
+    return name.replace(/\//g, '_').replace('.json', '')
   }
 
   static async getSwaggerFile (request: any) {
