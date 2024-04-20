@@ -396,6 +396,7 @@ export class SwaggerPlugin {
         <link rel="stylesheet" type="text/css" href="/swagger/index.css" />
         <link rel="icon" type="image/png" href="/swagger/favicon-32x32.png" sizes="32x32" />
         <link rel="icon" type="image/png" href="/swagger/favicon-16x16.png" sizes="16x16" />
+        <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
       </head>
     
       <body>
@@ -412,13 +413,49 @@ export class SwaggerPlugin {
     swarm.checkAccess(request, conf.access)
 
     reply.type('text/javascript').send(`window.onload = function() {
+      const h = React.createElement
+
   window.ui = SwaggerUIBundle({
     url: "/${request.params.version}/swagger.json",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
       SwaggerUIBundle.presets.apis,
-      SwaggerUIStandalonePreset
+      SwaggerUIStandalonePreset,
+      system => {
+        // Variable to capture the security prop of OperationSummary
+        // then pass it to authorizeOperationBtn
+        let currentSecurity
+        return {
+            wrapComponents: {
+                // Wrap OperationSummary component to get its prop
+                OperationSummary: Original => props => {
+                    const security = props.operationProps.get('security')
+                    currentSecurity = security.toJS()
+                    return h(Original, props)
+                },
+                // Wrap the padlock button to show the
+                // scopes required for current operation
+                authorizeOperationBtn: Original =>
+                    function (props) {
+                        return h('div', {}, [
+                            ...(currentSecurity || []).map(scheme => {
+                                const schemeName = Object.keys(scheme)[0]
+                                if (!scheme[schemeName].length) return null
+
+                                const scopes = scheme[schemeName].flatMap(scope => [
+                                    h('code', null, scope),
+                                    ', ',
+                                ])
+                                scopes.pop()
+                                return h('span', null, [schemeName, '(', ...scopes, ')'])
+                            }),
+                            h(Original, props),
+                        ])
+                    },
+            },
+        }
+    },
     ],
     plugins: [
       SwaggerUIBundle.plugins.DownloadUrl
