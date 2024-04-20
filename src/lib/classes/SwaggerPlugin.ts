@@ -230,6 +230,18 @@ export class SwaggerPlugin {
           description: controller.description
         })
 
+        if (controller.access !== null) {
+          for (let item of controller.access) {
+            if (
+              ret.components?.securitySchemes?.auth?.flows?.scopes !==
+                undefined &&
+              ret.components.securitySchemes.auth.flows.scopes[item] ===
+                undefined
+            )
+              ret.components.securitySchemes.auth.flows.scopes[item] = item
+          }
+        }
+
         for (let method of controller.methods) {
           if (
             method.version.includes(request.params.version) === false &&
@@ -245,6 +257,18 @@ export class SwaggerPlugin {
           const verb = (method.method as string).toLowerCase()
 
           if (ret.paths[path] === undefined) ret.paths[path] = {}
+
+          if (method.access !== null) {
+            for (let item of method.access) {
+              if (
+                ret.components?.securitySchemes?.auth?.flows?.scopes !==
+                  undefined &&
+                ret.components.securitySchemes.auth.flows.scopes[item] ===
+                  undefined
+              )
+                ret.components.securitySchemes.auth.flows.scopes[item] = item
+            }
+          }
 
           ret.paths[path][verb] = {
             tags: [controller.title ?? controller.name],
