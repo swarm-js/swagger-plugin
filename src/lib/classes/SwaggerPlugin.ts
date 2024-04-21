@@ -11,6 +11,7 @@ export class SwaggerPlugin {
     conf = {
       controllerName: 'SwaggerPlugin',
       access: null,
+      appendToJs: '',
       ...options
     }
 
@@ -462,6 +463,7 @@ export class SwaggerPlugin {
     ],
     layout: "StandaloneLayout"
   });
+  ${conf.appendToJs ?? ''}
 };
 `)
   }
