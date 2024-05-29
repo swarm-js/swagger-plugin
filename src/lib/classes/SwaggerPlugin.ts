@@ -409,6 +409,7 @@ export class SwaggerPlugin {
     reply.type('text/html').send(`<!DOCTYPE html>
     <html lang="en">
       <head>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' unpkg.com">
         <meta charset="UTF-8">
         <title>Swagger UI</title>
         <link rel="stylesheet" type="text/css" href="/swagger/swagger-ui.css" />
