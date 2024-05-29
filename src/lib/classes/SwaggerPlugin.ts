@@ -1,6 +1,4 @@
 import { SwaggerPluginOptions } from '../interfaces/SwaggerPluginOptions'
-import fs from 'fs'
-import path from 'path'
 
 let swarm: any
 let conf: SwaggerPluginOptions
