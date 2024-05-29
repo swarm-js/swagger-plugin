@@ -415,15 +415,14 @@ export class SwaggerPlugin {
     reply.type('text/html').send(`<!DOCTYPE html>
     <html lang="en">
       <head>
+        <meta http-equiv="Content-Security-Policy" content="default-src *;" />
         <meta charset="UTF-8">
         <title>Swagger UI</title>
         <link rel="stylesheet" type="text/css" href="/swagger/swagger-ui.css" />
         <link rel="stylesheet" type="text/css" href="/swagger/index.css" />
         <link rel="icon" type="image/png" href="/swagger/favicon-32x32.png" sizes="32x32" />
         <link rel="icon" type="image/png" href="/swagger/favicon-16x16.png" sizes="16x16" />
-        <script type="text/javascript">
-          ${react}
-        </script>
+        <script type="text/javascript" src="https://unpkg.com/react@15/dist/react.min.js" />
       </head>
     
       <body>
