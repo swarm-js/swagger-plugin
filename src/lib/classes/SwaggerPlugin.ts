@@ -408,10 +408,6 @@ export class SwaggerPlugin {
   static async getSwaggerUi (request: any, reply: any) {
     swarm.checkAccess(request, conf.access)
 
-    const react = fs.readFileSync(
-      path.join(__dirname, '..', 'vendor', 'react.min.js')
-    )
-
     reply.type('text/html').send(`<!DOCTYPE html>
     <html lang="en">
       <head>
@@ -422,7 +418,7 @@ export class SwaggerPlugin {
         <link rel="stylesheet" type="text/css" href="/swagger/index.css" />
         <link rel="icon" type="image/png" href="/swagger/favicon-32x32.png" sizes="32x32" />
         <link rel="icon" type="image/png" href="/swagger/favicon-16x16.png" sizes="16x16" />
-        <script type="text/javascript" src="https://unpkg.com/react@15/dist/react.min.js" />
+        <script type="text/javascript" src="https://unpkg.com/react@15/dist/react.min.js"></script>
       </head>
     
       <body>
