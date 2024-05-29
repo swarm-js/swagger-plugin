@@ -1,4 +1,6 @@
 import { SwaggerPluginOptions } from '../interfaces/SwaggerPluginOptions'
+import fs from 'fs'
+import path from 'path'
 
 let swarm: any
 let conf: SwaggerPluginOptions
@@ -406,17 +408,22 @@ export class SwaggerPlugin {
   static async getSwaggerUi (request: any, reply: any) {
     swarm.checkAccess(request, conf.access)
 
+    const react = fs.readFileSync(
+      path.join(__dirname, '..', 'vendor', 'react.min.js')
+    )
+
     reply.type('text/html').send(`<!DOCTYPE html>
     <html lang="en">
       <head>
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' unpkg.com">
         <meta charset="UTF-8">
         <title>Swagger UI</title>
         <link rel="stylesheet" type="text/css" href="/swagger/swagger-ui.css" />
         <link rel="stylesheet" type="text/css" href="/swagger/index.css" />
         <link rel="icon" type="image/png" href="/swagger/favicon-32x32.png" sizes="32x32" />
         <link rel="icon" type="image/png" href="/swagger/favicon-16x16.png" sizes="16x16" />
-        <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+        <script type="text/javascript">
+          ${react}
+        </script>
       </head>
     
       <body>
